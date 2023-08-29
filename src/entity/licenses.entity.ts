@@ -1,20 +1,30 @@
 import {
+  Entity,
   Column,
+  PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  PrimaryGeneratedColumn,
-  BaseEntity,
 } from 'typeorm';
 
-export class BaseModelEntity {
+@Entity('licenses')
+export class LicensesEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
+  name: string;
+
   @Column({
+    type: 'timestamp',
     nullable: true,
-    type: 'uuid',
   })
-  license_id: string;
+  valid_from: Date;
+
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+  })
+  valid_to: Date;
 
   @CreateDateColumn()
   created: Date;
