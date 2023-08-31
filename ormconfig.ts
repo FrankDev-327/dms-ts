@@ -2,11 +2,16 @@ import {PostgresConnectionOptions} from "typeorm/driver/postgres/PostgresConnect
 
 export const typeOrmConfig : PostgresConnectionOptions = {
     type: 'postgres',
-    url: process.env.DB_URL,
-    ssl: true,
+    database:"",
+    username:"",
+    password:"",
+    host:"",
+    port: 5432,
+    schema: "public",
+    applicationName:"dms-administrator",
     synchronize: process.env.NODE_ENV !== 'prod',
     logging: process.env.NODE_ENV !== 'prod',
-    entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    migrations: ['src/migrations/**/*{.ts,.js}'],
+    entities: [__dirname+'/**/*.entity{.ts,.js}'],
+    migrations: ['src/migration/**/*{.ts,.js}'],
     subscribers: [],
   }
