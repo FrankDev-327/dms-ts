@@ -1,0 +1,36 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER_NAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB}
+    env_file:
+      - .env
+    networks:
+      network:
+        ipv4_address: 10.5.0.5
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    user: "${UID}:${GID}" 
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_USER_NAME}", "-d", "${DB}", "-h", "localhost", "-p", "5432"]
+      interval: 5s
+      timeout: 10s
+      retries: 2
+
+volumes:
+  postgres-data:
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
